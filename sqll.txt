@@ -1,0 +1,32 @@
+SELECTION :- Retrival of data by the help of only colum_name.
+								
+SELECT */[DISTINCT] COLUMN_NAME/ EXPRESSION [ALIAS]
+FROM TABLE_NAME
+
+-----------------------------------------------------------------------------------------------------
+
+PROJECTION :- Retrieval of data by the help of both column and row names.	ORDER OF EXECUTION:-
+SELECT */[DISTINCT] COLUMN_NAME/ EXPRESSION [ALIAS]				(i) FROM
+FROM TABLE_NAME									(ii) WHERE => ROW BY ROW
+WHERE <filter condition>							(iii) SELECT => ROW BY ROW
+
+------------------------------------------------------------------------------------------------------
+
+GROUP BY:-									ORDER OF EXECUTION
+
+SELECT */[DISTINCT] COLUMN_NM/ EXPRESSION [ALIAS]				(i) FROM
+FROM TABLE_NM									(ii) WHERE { IF ANY } => ROW BY ROW
+[ WHERE <FILTER CONDITION>]							(iii) GROUP BY => ROW BY ROW
+GROUP BY COLUMN_NM								(iv) SELECT => GROUP BY GROUP
+
+------------------------------------------------------------------------------------------------------
+
+HAVING CLAUSE:-
+
+										ORDER OF EXECUTION
+
+SELECT */[DISTINCT] COLUMN_NM/ EXPRESSION [ALIAS]				(i) FROM
+FROM TABLE_NM									(ii) WHERE { IF ANY }
+[ WHERE <FILTER CONDITION>]							(iii) GROUP BY
+GROUP BY COLUMN_NM								(iv) SELECT
+HAVING <GROUP FILTER CONDITION>
