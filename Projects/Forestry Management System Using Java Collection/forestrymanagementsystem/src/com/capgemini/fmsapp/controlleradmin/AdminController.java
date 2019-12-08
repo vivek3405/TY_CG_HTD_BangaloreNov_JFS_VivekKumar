@@ -87,18 +87,18 @@ public class AdminController {
 					System.err.println("error.. ID not found int the directory");
 				break;
 			case 5:
-				return;
+				MainController.main(null);
 			default: System.out.println("wrong input");
 			}
 		}
 	}
 	public static void adinControlContractor() {
-		ContractorBean bean;
+		ContractorBean bean1;
 		ContractorDao cdao= FmsFactory.instanceOfContractorDaoImpl();
-		List<ContractorBean> l=new ArrayList<ContractorBean>();
-		Map<Integer, List<ContractorBean>> m=new HashMap<Integer, List<ContractorBean>>();
+		List<ContractorBean> l1=new ArrayList<ContractorBean>();
+		Map<Integer, List<ContractorBean>> m1=new HashMap<Integer, List<ContractorBean>>();
 		while(true) {
-			bean=new ContractorBean();
+			bean1=new ContractorBean();
 			System.out.println("Enter 1 to add a Contractor account");
 			System.out.println("Enter 2 to to get Contract information");
 			System.out.println("Enter 3 to search an Contract with Contractno");
@@ -110,20 +110,20 @@ public class AdminController {
 			switch(toggle) {
 			case 1:
 				System.out.println("Enter Contractno...");
-				bean.setContractno(sca.nextInt());
+				bean1.setContractno(sca.nextInt());
 				System.out.println("Enter customer Id...");
-				bean.setCustId(sca.nextInt());
+				bean1.setCustId(sca.nextInt());
 				System.out.println("Enter product Id....");
-				bean.setProductId(sca.next());
+				bean1.setProductId(sca.next());
 				System.out.println("Enter haulier Id...");
-				bean.setHaulierId(sca.next());
+				bean1.setHaulierId(sca.next());
 				System.out.println("Enter Deliver date...");
-				bean.setDeliverdate(sca.next());
+				bean1.setDeliverdate(sca.next());
 				System.out.println("Enter Product quantity...");
-				bean.setQuantity(sca.nextDouble());
+				bean1.setQuantity(sca.nextDouble());
 				System.out.println("----------------------");
-				boolean b=cdao.addContractor(bean);
-				l=cdao.getAllContractors();
+				boolean b=cdao.addContractor(bean1);
+				l1=cdao.getAllContractors();
 				if(b)
 				{
 					System.out.println("Contractor added...");
@@ -132,11 +132,11 @@ public class AdminController {
 				else {
 					System.err.println("not added");
 				}
-				m.put(bean.getContractno(),l);
+				m1.put(bean1.getContractno(),l1);
 				break;
 			case 2:
 
-				Set<Entry<Integer, List<ContractorBean>>> s1= m.entrySet();
+				Set<Entry<Integer, List<ContractorBean>>> s1= m1.entrySet();
 				for (Entry<Integer, List<ContractorBean>> e : s1) {
 					System.out.println("-------------------");
 					System.out.print("Contract-No is=====>");
@@ -148,8 +148,8 @@ public class AdminController {
 			case 3: 
 				System.out.println("Enter the Contract-no to search");
 				int c=sca.nextInt();
-				if(cdao.searchContracter(c, m)){
-					System.out.println(m.get(c));
+				if(cdao.searchContracter(c, m1)){
+					System.out.println(m1.get(c));
 				}
 				else {
 					System.err.println("contract not found");
@@ -158,8 +158,8 @@ public class AdminController {
 			case 4: 
 				System.out.println("enter contract-no");
 				int sa=sca.nextInt();
-				if(cdao.deleteContractor(sa, m)) {
-					m.remove(sa);
+				if(cdao.deleteContractor(sa, m1)) {
+					m1.remove(sa);
 					System.out.println("contractor deleted");
 				}
 				else
@@ -168,45 +168,45 @@ public class AdminController {
 			case 5:
 				System.out.println("Enter the contract-no to search for modification");
 				int s=sca.nextInt();
-				if(cdao.searchContracter(s, m)) {
-					System.out.println(m.get(s));
-					m.remove(s);
-					bean.setContractno(s);
+				if(cdao.searchContracter(s, m1)) {
+					System.out.println(m1.get(s));
+					m1.remove(s);
+					bean1.setContractno(s);
 					System.out.println("Fill this form for any modificaton-->");
 					System.out.println("-------------");
 					System.out.println("Enter customer Id...");
-					bean.setCustId(sca.nextInt());
+					bean1.setCustId(sca.nextInt());
 					System.out.println("Enter product Id....");
-					bean.setProductId(sca.next());
+					bean1.setProductId(sca.next());
 					System.out.println("Enter haulier Id...");
-					bean.setHaulierId(sca.next());
+					bean1.setHaulierId(sca.next());
 					System.out.println("Enter Deliver date...");
-					bean.setDeliverdate(sca.next());
+					bean1.setDeliverdate(sca.next());
 					System.out.println("Enter Product quantity...");
-					bean.setQuantity(sca.nextDouble());
+					bean1.setQuantity(sca.nextDouble());
 					System.out.println("----------------------");
-					cdao.addContractor(bean);
-					l=cdao.getAllContractors();
-					m.put(bean.getContractno(),l);
-					System.out.println(m.get(s));
+					cdao.addContractor(bean1);
+					l1=cdao.getAllContractors();
+					m1.put(bean1.getContractno(),l1);
+					System.out.println(m1.get(s));
 				}
 				else {
 					System.err.println("No contract with this contract number... try again");
 				}
 				break;
 			case 6:
-				return;
+				MainController.main(null);
 			default: System.err.println("wrong input");
 			}
 		}
 	}
 	public static void adminControlProduct(){
-		ProductBean bean;
+		ProductBean bean2;
 		ProductDao cdao= FmsFactory.instanceOfProductDaoImpl();
-		List<ProductBean> l=new ArrayList<ProductBean>();
-		Map<Integer, List<ProductBean>> m=new HashMap<Integer, List<ProductBean>>();
+		List<ProductBean> l2=new ArrayList<ProductBean>();
+		Map<Integer, List<ProductBean>> m2=new HashMap<Integer, List<ProductBean>>();
 		while(true) {
-			bean=new ProductBean();
+			bean2=new ProductBean();
 			System.out.println("Enter 1 to add a product ");
 			System.out.println("Enter 2 to to get all product information");
 			System.out.println("Enter 3 to delete a Product");
@@ -217,14 +217,14 @@ public class AdminController {
 			switch(toggle) {
 			case 1:
 				System.out.println("Enter ProductID...");
-				bean.setProdid(sca.nextInt());
+				bean2.setProdid(sca.nextInt());
 				System.out.println("Enter Product Name...");
-				bean.setPname(sca.next());
+				bean2.setPname(sca.next());
 				System.out.println("Enter product description....");
-				bean.setPdesc(sca.next());
+				bean2.setPdesc(sca.next());
 				System.out.println("----------------------");
-				boolean b=cdao.addProduct(bean);
-				l=cdao.getAllProduct();
+				boolean b=cdao.addProduct(bean2);
+				l2=cdao.getAllProduct();
 				if(b)
 				{
 					System.out.println("new Product added...");
@@ -233,11 +233,11 @@ public class AdminController {
 				else {
 					System.err.println("not added");
 				}
-				m.put(bean.getProdid(),l);
+				m2.put(bean2.getProdid(),l2);
 				break;
 			case 2:
 
-				Set<Entry<Integer, List<ProductBean>>> s1= m.entrySet();
+				Set<Entry<Integer, List<ProductBean>>> s1= m2.entrySet();
 				for (Entry<Integer, List<ProductBean>> e : s1) {
 					System.out.println("-------------------");
 					System.out.print("Product-ID is=====>");
@@ -249,8 +249,8 @@ public class AdminController {
 			case 3: 
 				System.out.println("enter contract-no");
 				int sa=sca.nextInt();
-				if(cdao.deleteProduct(sa, m)) {
-					m.remove(sa);
+				if(cdao.deleteProduct(sa, m2)) {
+					m2.remove(sa);
 					System.out.println("Product deleted");
 				}
 				else
@@ -259,26 +259,26 @@ public class AdminController {
 			case 4:
 				System.out.println("Enter the Product ID to search for modification");
 				int s=sca.nextInt();
-				if(cdao.searchProduct(s, m)) {
-					System.out.println(m.get(s));
-					m.remove(s);
-					bean.setProdid(s);
+				if(cdao.searchProduct(s, m2)) {
+					System.out.println(m2.get(s));
+					m2.remove(s);
+					bean2.setProdid(s);
 					System.out.println("Enter Product Name...");
-					bean.setPname(sca.next());
+					bean2.setPname(sca.next());
 					System.out.println("Enter product description....");
-					bean.setPdesc(sca.next());
+					bean2.setPdesc(sca.next());
 					System.out.println("----------------------");
-					cdao.addProduct(bean);
-					l=cdao.getAllProduct();
-					m.put(bean.getProdid(),l);
-					System.out.println(m.get(s));
+					cdao.addProduct(bean2);
+					l2=cdao.getAllProduct();
+					m2.put(bean2.getProdid(),l2);
+					System.out.println(m2.get(s));
 				}
 				else {
 					System.err.println("No contract with this contract number... try again");
 				}
 				break;
 			case 5:
-				return;
+				MainController.main(null);
 			default: System.err.println("wrong input");
 			}
 		}
