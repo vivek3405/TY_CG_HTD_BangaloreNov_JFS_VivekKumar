@@ -1,0 +1,19 @@
+.nav{
+    background: url("https://cdn.pixabay.com/photo/2019/12/28/15/05/sparkler-4724867__340.jpg");
+    height: 50px;
+    padding:10px;
+    
+}
+nav ul li{
+    float: left;
+    padding-left: 30px;
+    list-style-type: none;
+}
+.login{
+    margin-left: 60%;
+}
+a{
+    color:whitesmoke;
+    text-decoration: none;
+    
+}

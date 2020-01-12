@@ -1,0 +1,17 @@
+<h1>{{name}}</h1>
+
+<img [src]="imgUrl" alt="newyear">
+<p [style.background]='flag ? "black":"red"' [style.color]='flag ? "red":"black"'
+    [style.fontSize]='flag ? "20px":"40px"'>
+    style binding
+</p>
+<p [class.display-1]=flag [class.display-4]=!flag>
+    Lorem ipsum dolor sit amet.
+</p>
+<!-- <input type="text" name="myInput" #myInput> -->
+
+<input type="text" name="twoWayData" [(ngModel)]='twoWayData'>
+{{twoWayData}}
+
+<button (click)='printData()' class="btn btn-outline-dark">click me</button>
+<!-- <button (click)='clickMe(myInput)' class="btn btn-outline-dark">click me</button> -->

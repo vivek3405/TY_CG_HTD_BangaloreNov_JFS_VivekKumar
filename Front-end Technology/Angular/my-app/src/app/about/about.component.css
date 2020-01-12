@@ -1,0 +1,13 @@
+nav a{
+    text-decoration: none;
+    padding: 15px;
+    font-size: 30px;
+    display: inline-block;
+    color: black;
+    margin-left: 15%;
+
+}
+img{
+    width: 50%;
+    height: 400px;
+}

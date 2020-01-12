@@ -1,0 +1,4 @@
+<div class="bg-dark">Parent componet</div>
+<h1>{{dataFromChild}}</h1>
+<app-child [dataFromParent]='student'
+(childEvent)='getChildData($event)'></app-child>
