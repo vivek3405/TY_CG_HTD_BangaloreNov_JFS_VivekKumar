@@ -1,0 +1,19 @@
+<div class="container">
+<div class="alert alert-danger" *ngIf='message'>{{message}}</div>
+<table class="table table-striped mt-4 bg-dark text-light">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor='let product of products'>
+        <td>{{product.name}}</td>
+        <td>{{product.email}}</td>
+        <td>{{product.phone}}</td>
+    </tr>
+</tbody>
+</table>
+</div>
