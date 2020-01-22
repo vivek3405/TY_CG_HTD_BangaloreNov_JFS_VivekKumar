@@ -1,0 +1,61 @@
+package com.capgemini.forestrymanagementsystemspringrest.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.forestrymanagementsystemspringrest.dao.CustomerDao;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+	
+	@Autowired
+	private CustomerDao dao;
+
+	@Override
+	public CustomerBean auth(String email, String password) {
+		return null;
+	}
+
+	@Override
+	public boolean register(CustomerBean bean) {
+		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+		String encodedPassword = encoder.encode(bean.getPassword());
+		bean.setPassword(encodedPassword);
+		
+		List<EmployeeAddressBean> addressBeans= bean.getAddressBeans();
+		for (EmployeeAddressBean employeeAddressBean : addressBeans) {
+			employeeAddressBean.setBean(bean);
+			
+		}
+		return dao.register(bean);
+	}
+
+	@Override
+	public List<CustomerBean> getAllCustomer(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean changePassword(int id, String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteCustomer(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean searchCustomer(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

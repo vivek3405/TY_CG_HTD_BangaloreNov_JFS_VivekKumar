@@ -1,0 +1,5 @@
+127.0.0.1 - - [16/Jan/2020:00:40:02 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [16/Jan/2020:00:43:22 +0530] "POST /forestrymanagementsystemspringrest/add-user HTTP/1.1" 200 102
+0:0:0:0:0:0:0:1 - - [16/Jan/2020:00:44:33 +0530] "POST /forestrymanagementsystemspringrest/login-user HTTP/1.1" 200 227
+127.0.0.1 - - [16/Jan/2020:22:44:46 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [16/Jan/2020:22:47:15 +0530] "GET /forestrymanagementsystemspringrest/search-customer?key=vivek HTTP/1.1" 500 3764

@@ -1,0 +1,60 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierBean;
+import com.capgemini.forestrymanagementsystemspringrest.exception.CustomerException;
+
+@Repository
+public class HaulierDaoImpl implements HaulierDao {
+	
+	@PersistenceUnit
+	private EntityManagerFactory factory;
+
+	@Override
+	public boolean register(HaulierBean bean) {
+		EntityManager manager= factory.createEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		transaction.begin();
+		try {
+			manager.persist(bean);
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CustomerException("Email already exist/ID already exist");
+		}
+	}
+
+	@Override
+	public List<HaulierBean> getAllCustomer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean modifyHaulier(int id, HaulierBean bean) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteHaulier(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<HaulierBean> searchHaulier(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

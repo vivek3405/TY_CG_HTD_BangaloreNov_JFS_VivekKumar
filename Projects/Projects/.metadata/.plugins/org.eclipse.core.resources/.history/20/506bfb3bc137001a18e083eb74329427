@@ -1,0 +1,72 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerResponse;
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierResponse;
+import com.capgemini.forestrymanagementsystemspringrest.service.HaulierService;
+
+@RestController
+public class HaulierController {
+	
+	@Autowired
+	private HaulierService service;
+	
+	@PostMapping(path = "/add-haulier", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public HaulierResponse registerCustomer(@RequestBody HaulierBean bean) {
+		HaulierResponse response=new HaulierResponse();
+		if(service.register(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("registered successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Email/ID already exists");
+		}
+		return response;
+
+	}
+	@GetMapping(path = "/get-haulier", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HaulierResponse getAllCustomer() {
+		HaulierResponse response=new HaulierResponse();
+		List<HaulierBean> beans=service.getAllCustomer();
+		if(beans.isEmpty()) {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Data not found");
+		}else {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("Haulier data found");
+			response.setHaulier(beans);
+		}
+		return response;
+		
+	}
+	@PutMapping(path = "/modify-haulier", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public HaulierResponse modifyHaulier(@RequestBody HaulierBean bean) {
+		HaulierResponse response=new HaulierResponse();
+		if(service.modifyHaulier(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("modification succesfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("user not found");
+		}
+		return response;
+	}
+
+}

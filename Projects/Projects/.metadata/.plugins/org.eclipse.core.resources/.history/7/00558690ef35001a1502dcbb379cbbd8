@@ -1,0 +1,32 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginResponse;
+import com.capgemini.forestrymanagementsystemspringrest.service.AuthenticationService;
+
+@RestController
+public class LoginController {
+	
+	@Autowired
+	private AuthenticationService service;
+	
+	public LoginResponse register(@RequestBody LoginBean bean) {
+		LoginResponse response=new LoginResponse();
+		if(service.register(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("registered successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("user ID already present");
+		}
+		return response;
+		
+	}
+
+}

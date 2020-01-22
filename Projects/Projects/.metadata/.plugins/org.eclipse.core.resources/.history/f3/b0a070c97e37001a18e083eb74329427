@@ -1,0 +1,18 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginResponse;
+import com.capgemini.forestrymanagementsystemspringrest.exception.LoginException;
+
+public class LoginControllerAdvice {
+	@ExceptionHandler(LoginException.class)
+	public LoginResponse handleEmployeeException(LoginException e) {
+		LoginResponse response = new LoginResponse();
+		response.setStatusCode(501);
+		response.setMessage("Exception");
+		response.setDescription(e.getMessage());
+		return response;
+	}
+
+}

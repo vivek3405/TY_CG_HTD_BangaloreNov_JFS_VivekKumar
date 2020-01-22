@@ -1,0 +1,45 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginBean;
+import com.capgemini.forestrymanagementsystemspringrest.exception.CustomerException;
+
+@Repository
+public class AuthenticationDaoImpl implements AuthenticationDao{
+
+	@Autowired
+	private EntityManagerFactory factory;
+	@Override
+	public LoginBean auth(String email, String password) {
+		EntityManager manager=factory.createEntityManager();
+		String jpql="from LoginBean where email=:email";
+		TypedQuery<LoginBean> query=manager.createQuery(jpql, LoginBean.class);
+		query.setParameter("email", email);
+		//query.setParameter("password", password);
+		try {
+			LoginBean bean=query.getSingleResult();
+			BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+			if(encoder.matches(password, bean.getPassword())){
+				return bean;
+			}else {
+				throw new CustomerException("Password Invalid");
+			}
+		} catch (Exception e) {
+			throw new CustomerException("Email Invalid");
+		}
+	}
+
+	@Override
+	public boolean register(LoginBean bean) {
+		return false;
+	}
+
+}

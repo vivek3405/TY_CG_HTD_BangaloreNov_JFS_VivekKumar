@@ -1,0 +1,101 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerResponse;
+import com.capgemini.forestrymanagementsystemspringrest.service.CustomerService;
+
+@RestController
+public class CustomerController {
+	
+	@Autowired
+	private CustomerService service;
+	
+	@PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public CustomerResponse auth(@RequestBody CustomerBean bean) {
+
+		CustomerBean customerBean= service.auth(bean.getEmail(), bean.getPassword());
+		CustomerResponse response=new CustomerResponse();
+		if(customerBean!=null) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("Customer found for the credentials");
+			response.setCustomer(Arrays.asList(customerBean));
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Credentials invalid");
+		}
+		return response;
+	}
+	@PostMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public CustomerResponse register(@RequestBody CustomerBean bean) {
+		CustomerResponse response=new CustomerResponse();
+		if(service.register(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("registered successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Email already exists");
+		}
+		return response;
+
+	}
+	@GetMapping(path = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
+	public CustomerResponse searchEmployee(@RequestParam("key") String key) {
+		CustomerResponse response=new CustomerResponse();
+		List<CustomerBean> beans=service.getAllCustomer(key);
+		if(beans.isEmpty()) {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Data not found");
+		}else {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("employee data found");
+			response.setCustomer(beans);
+		}
+		return response;
+		
+	}
+	@PutMapping(path = "/change-password", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public CustomerResponse changePassword(@RequestBody CustomerBean bean) {
+		CustomerResponse response=new CustomerResponse();
+		if(service.changePassword(bean.getCustid(), bean.getPassword())) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("password change succesfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("user not found/password not changed");
+		}
+		return response;
+	}
+	@DeleteMapping(path="/delete/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public CustomerResponse deleteEmployee(@PathVariable("id") int id) {
+		CustomerResponse response=new CustomerResponse();
+		
+		service.deleteCustomer(id);
+		response.setStatusCode(201);
+		response.setMessage("success");
+		response.setDescription("Employee Details Deleted");
+		return response;
+	}
+
+}

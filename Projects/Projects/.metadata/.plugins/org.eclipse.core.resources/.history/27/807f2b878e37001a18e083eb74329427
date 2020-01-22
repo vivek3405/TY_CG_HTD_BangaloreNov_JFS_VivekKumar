@@ -1,0 +1,16 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import java.util.List;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ProductBean;
+
+public interface ProductDao {
+
+	public boolean addProduct(CustomerBean bean);
+	public List<ProductBean> getAllProduct(String key);
+	public boolean modifyProduct(int id, String pcost);
+	public boolean deleteProduct(int id);
+	public boolean searchProduct(int id);
+
+}

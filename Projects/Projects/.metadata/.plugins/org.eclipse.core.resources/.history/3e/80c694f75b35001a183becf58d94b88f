@@ -1,0 +1,290 @@
+package com.capgemini.forestrymanagementsystemhibernate.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.capgemini.forestrymanagementsystemhibernate.exception.ProductException;
+import com.capgemini.forestrymanagementsystemhibernate.factory.FmsFactory;
+import com.capgemini.forestrymanagementsystemhibernate.service.CustomerService;
+import com.capgemini.forestrymanagementsystemhibernate.service.LoginService;
+
+public class Controller {
+	static Scanner sc = new Scanner(System.in);
+
+	public static void main(String[] args) {
+
+		LoginService service = FmsFactory.instanceOfLoginServiceImpl();
+		CustomerService customerService = FmsFactory.instanceOfCustomerServiceImpl();
+		List<String> list = new ArrayList<String>();
+		while (true) {
+			int option = 0;
+			try {
+				System.out.println("Welcome to Forestry Management System");
+				System.out.println("=====================================");
+				System.out.println(
+						"Enter 1 for Admin Section\n" + "Enter 2 for Client Section\n" + "Enter 3 for Schedular");
+				option = Integer.parseInt(sc.next());
+			} catch (Exception e) {
+				System.out.println("Please enter integer value only");
+			}
+			switch (option) {
+			case 1:
+				System.out.println("Please Enter User Name");
+				String id = sc.next();
+				System.out.println("Enter your password");
+				String pass = sc.next();
+				String name = service.loginAdmin(id, pass);
+				if (name != null) {
+					while (true) {
+						int option2 = 0;
+						try {
+							System.out.println("Welcome admin");
+							System.out.println("----------------------");
+							System.out.println("Enter 1 for Client Operations\nEnter 2 for Haulier Operation\n"
+									+ "Enter 3 for Products\nEnter 4 for Cliet's Payment related issues\n"
+									+ "Enter 5 to logout");
+							option2 = Integer.parseInt(sc.next());
+						} catch (Exception e) {
+							System.out.println("Please enter integer value only");
+						}
+						switch (option2) {
+						case 1:
+							while (true) {
+								System.out.println("Client Operations");
+								System.out.println("-----------------");
+								System.out.println("Enter 1 to add customer\nEnter 2 to Explore among the customers\n"
+										+ "Enter 3 to search a customer\nEnter 4 to delete a customer\n"
+										+ "Enter 5 to modification for the customer\nEnter 6 to go back\n");
+								int option3 = sc.nextInt();
+								switch (option3) {
+								case 1:
+									Admin.addCustomer();
+									continue;
+								case 2:
+									Admin.getAllCustomer();
+									continue;
+								case 3:
+									Admin.searchCustomer();
+									continue;
+								case 4:
+									Admin.deleteCustomer();
+									continue;
+								case 5:
+									Admin.updateMobile();
+									continue;
+								case 6:
+									break;
+								default:
+									System.out.println("Enter options from 1-7");
+								}
+								break;
+							}
+						case 2:
+							while (true) {
+								int option4 = 0;
+								try {
+									System.out.println("Haulier Operations\n-------------------");
+									System.out.println("Enter 1 to add haulier\nEnter 2 to see all hauliers\n"
+											+ "Enter 3 to search a hauliier\nEnter 4 to delete a haulier\nEnter 5 to go back");
+									option4 = Integer.parseInt(sc.next());
+								} catch (Exception e) {
+									System.out.println("Please enter only integer value");
+								}
+								switch (option4) {
+								case 1:
+									Admin.addHaulier();
+									break;
+								case 2:
+									Admin.getAllHaulier();
+									break;
+								case 3:
+									Admin.searchHaulier();
+									break;
+								case 4:
+									Admin.deleteHaulier();
+									break;
+								case 5:
+									break;
+								default:
+									System.out.println("Enter from 1-6");
+								}
+							}
+						case 3:
+							while (true) {
+								int option1 = 0;
+								try {
+									System.out.println("Products");
+									System.out.println("--------------");
+									System.out.println(
+											"Enter 1 to add products\nEnter 2 to view all added products\nEnter 3 to search for a product\n"
+											+ "Enter 4 to delete a product\nEnter 5 to go back");
+									option1 = Integer.parseInt(sc.next());
+								} catch (Exception e) {
+									System.out.println("Please Enter an Integer value");
+								}
+								switch (option1) {
+								case 1:
+									Admin.addProduct();
+									break;
+								case 2:
+									Admin.viewAllProducts();
+									break;
+								case 3:
+									try {
+										Admin.searchProduct();
+									} catch (ProductException e) {
+										System.out.println(e.getMessage());
+									}
+									break;
+								case 4:
+									Admin.deleteProduct();
+									break;
+								case 5:
+									break;
+								default:
+									System.out.println("enter from 1-6");
+								}
+							}
+						case 4:
+							System.out.println("payment related issues");
+							break;
+						case 5:
+							break;
+						}
+						break;
+					}
+				} else {
+					System.out.println("Please try again");
+				}
+				break;
+			case 2:
+				int option1 = 0;
+				try {
+					System.out.println("Welcome to client Section");
+					System.out.println("----------------------");
+					System.out.println("Enter 1 to send a registration request to the admin\n"
+							+ "Enter 2 to login(if already registered)");
+					option1 = Integer.parseInt(sc.next());
+				} catch (Exception e) {
+					System.out.println("You can only enter integer values");
+				}
+				switch (option1) {
+				case 1:
+					Admin.regRequest();
+					break;
+				case 2:
+					System.out.println("Enter userID");
+					int email = sc.nextInt();
+					System.out.println("Enter password");
+					String password = sc.next();
+					String cname = customerService.login(email, password);
+					if (cname != null) {
+						while (true) {
+							int option2 = 0;
+							try {
+								System.out.println("welcome to Customer Section");
+								System.out.println(
+										"Enter 1 to view all the available products\n" + "Enter 2 to order products\n"
+												+ "Enter 3 to send your queries\nEnter 4 to logout from client");
+								option2 = Integer.parseInt(sc.next());
+							} catch (Exception e) {
+								System.out.println("Please enter only integer value");
+							}
+							switch (option2) {
+							case 1:
+								Admin.viewAllProducts();
+								break;
+							case 2:
+								int option3 = 0;
+								Admin.searchProd();
+								while (true) {
+									try {
+										System.out.println(
+												"Press 1 to set a contract for this product\nPress 2 to search again\nPress 3 to logout");
+										option3 = Integer.parseInt(sc.next());
+									} catch (Exception e) {
+										System.out.println("You can enter only integer value");
+									}
+									switch (option3) {
+									case 1:
+										Admin.addOrders();
+										break;
+									case 2:
+										Admin.searchProd();
+										break;
+									case 3:
+										break;
+									}
+								}
+							case 3:
+								System.out.println("payment related issues");
+								System.out.println();
+								System.out.println("Enter your issues");
+								String issue = sc.nextLine();
+								list.add(issue);
+								System.out.println("issue has been sent to the admins");
+								break;
+							case 4:
+								break;
+							}
+						}
+
+					} else {
+						System.out.println("Login failed");
+					}
+					break;
+				}// end of switch
+				break;
+			case 3:
+				System.out.println("You Must Login First");
+				System.out.println();
+				System.out.println("Enter User-Name");
+				String schedularId = sc.next();
+				System.out.println("Enter your password");
+				String schedularPass = sc.next();
+				String userType = service.loginAdmin(schedularId, schedularPass);
+				if (userType != null) {
+					while (true) {
+						int option3 = 0;
+						try {
+							System.out.println("Welcome Schedular");
+							System.out.println("------------------");
+							System.out.println(
+									"Enter 1 to see all the orders\nEnter 2 to navigate among the products\nEnter 3 to view all the customers\n"
+											+ "Enter 4 to see all the available hauliers\n"
+											+ "Enter 5 to Add new Contract\nEnter 6 to See all the contracts\nEnter 7 to logout");
+							option3 = Integer.parseInt(sc.next());
+						} catch (Exception e) {
+							System.out.println("Please Enter Integer value");
+						}
+						switch (option3) {
+						case 1:
+							Admin.viewOrders();
+							break;
+						case 2:
+							Admin.viewAllProducts();
+							break;
+						case 3:
+							Admin.getAllCustomer();
+						case 4:
+							Admin.getAllHaulier();
+						case 5:
+							Admin.addContract();
+							break;
+						case 6:
+							Admin.viewContract();
+							break;
+						case 7:
+							break;
+						default:
+							System.out.println("Enter between 1-7");
+						}
+					}
+				} else {
+					System.out.println("Please try again");
+				}
+			}
+		}
+	}// end of main
+}// end of class

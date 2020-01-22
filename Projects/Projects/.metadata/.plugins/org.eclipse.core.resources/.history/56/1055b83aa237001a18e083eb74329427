@@ -1,0 +1,52 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerResponse;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ProductBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ProductResponse;
+import com.capgemini.forestrymanagementsystemspringrest.service.ProductService;
+
+@RestController
+public class ProductController {
+	
+	@Autowired
+	private ProductService service;
+	
+	@PostMapping(path = "/add-product", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ProductResponse addProduct(@RequestBody ProductBean bean) {
+		ProductResponse response=new ProductResponse();
+		if(service.addProduct(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("Added successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Product already exists");
+		}
+		return response;
+
+	}
+	@PutMapping(path = "/modify-product", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ProductResponse changePassword(@RequestBody ProductBean bean) {
+		ProductResponse response=new ProductResponse();
+		if(service.modifyProduct(bean.getProdid(), bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("change succesfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("product not found");
+		}
+		return response;
+	}
+
+}

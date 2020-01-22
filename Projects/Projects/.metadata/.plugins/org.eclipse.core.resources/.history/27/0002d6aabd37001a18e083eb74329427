@@ -1,0 +1,15 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import java.util.List;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierBean;
+
+public interface HaulierDao {
+	
+	public boolean register(HaulierBean bean);
+	public List<HaulierBean> getAllCustomer();
+	public boolean modifyHaulier(int id, HaulierBean bean);
+	public boolean deleteHaulier(int id);
+	public List<HaulierBean> searchHaulier(String key);
+
+}

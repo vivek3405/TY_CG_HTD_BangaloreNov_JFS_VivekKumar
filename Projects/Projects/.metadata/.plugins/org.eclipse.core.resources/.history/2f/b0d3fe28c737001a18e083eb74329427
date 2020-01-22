@@ -1,0 +1,58 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierResponse;
+import com.capgemini.forestrymanagementsystemspringrest.dto.OrderResponse;
+import com.capgemini.forestrymanagementsystemspringrest.dto.OrdersBean;
+import com.capgemini.forestrymanagementsystemspringrest.service.OrderService;
+
+@RestController
+public class OrderController {
+	
+	@Autowired
+	private OrderService service;
+	
+	@PostMapping(path = "/add-order", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public OrderResponse registerCustomer(@RequestBody OrdersBean bean) {
+		OrderResponse response=new OrderResponse();
+		if(service.addOrder(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("order added successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("order already exists");
+		}
+		return response;
+
+	}
+	@GetMapping(path = "/get-order", produces = MediaType.APPLICATION_JSON_VALUE)
+	public OrderResponse getAllOrder() {
+		OrderResponse response=new OrderResponse();
+		List<OrdersBean> beans=service.getAllOrder();
+		if(beans.isEmpty()) {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Data not found");
+		}else {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("Haulier data found");
+			response.setHaulier(beans);
+		}
+		return response;
+		
+	}
+	
+
+}

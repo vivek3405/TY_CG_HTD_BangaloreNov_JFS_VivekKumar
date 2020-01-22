@@ -1,0 +1,40 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import java.util.List;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ProductBean;
+
+public class ProductDaoImpl implements ProductDao {
+
+	@Override
+	public boolean addProduct(CustomerBean bean) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<ProductBean> getAllProduct(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean modifyProduct(int id, String pcost) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteProduct(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean searchProduct(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

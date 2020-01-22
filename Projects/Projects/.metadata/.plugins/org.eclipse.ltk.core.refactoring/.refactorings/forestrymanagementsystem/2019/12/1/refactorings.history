@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.capgemini.forestrymanagementsystem.controller.SuperAdmin&apos; to &apos;Admin&apos;&#x0D;&#x0A;- Original project: &apos;forestrymanagementsystem&apos;&#x0D;&#x0A;- Original element: &apos;com.capgemini.forestrymanagementsystem.controller.SuperAdmin&apos;&#x0D;&#x0A;- Renamed element: &apos;com.capgemini.forestrymanagementsystem.controller.Admin&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;SuperAdmin&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java&lt;com.capgemini.forestrymanagementsystem.controller{SuperAdmin.java[SuperAdmin" matchStrategy="1" name="Admin" qualified="false" references="true" similarDeclarations="false" stamp="1577637229095" textual="false" version="1.0"/>
+</session>

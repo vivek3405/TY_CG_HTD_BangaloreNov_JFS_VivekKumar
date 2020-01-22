@@ -1,0 +1,4 @@
+127.0.0.1 - - [17/Jan/2020:14:30:24 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [17/Jan/2020:14:36:33 +0530] "POST /forestrymanagementsystemspringrest/add-contract HTTP/1.1" 500 10622
+127.0.0.1 - - [17/Jan/2020:19:43:35 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [17/Jan/2020:19:43:35 +0530] "GET /view-allproducts HTTP/1.1" 404 725

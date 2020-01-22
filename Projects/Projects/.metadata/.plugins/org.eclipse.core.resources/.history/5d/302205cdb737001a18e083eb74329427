@@ -1,0 +1,36 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.ContractBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ContractResponse;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerResponse;
+import com.capgemini.forestrymanagementsystemspringrest.service.ContractService;
+
+@RestController
+public class ContractController {
+	
+	@Autowired
+	private ContractService service;
+
+	@PostMapping(path = "/add-contract", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ContractResponse addContract(@RequestBody ContractBean bean) {
+		ContractResponse response=new ContractResponse();
+		if(service.addContract(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("added successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("Email already exists");
+		}
+		return response;
+
+	}
+}

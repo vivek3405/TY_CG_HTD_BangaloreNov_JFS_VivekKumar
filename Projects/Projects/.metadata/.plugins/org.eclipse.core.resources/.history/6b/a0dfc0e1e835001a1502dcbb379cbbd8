@@ -1,0 +1,25 @@
+package com.capgemini.forestrymanagementsystemspringrest.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.forestrymanagementsystemspringrest.dao.AuthenticationDao;
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginBean;
+
+@Service
+public class AuthenticationServiceImpl implements AuthenticationDao {
+	
+	@Autowired
+	private AuthenticationDao dao;
+
+	@Override
+	public LoginBean auth(String email, String password) {
+		return dao.auth(email, password);
+	}
+
+	@Override
+	public boolean register(LoginBean bean) {
+		return false;
+	}
+
+}

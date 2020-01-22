@@ -1,0 +1,48 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginResponse;
+import com.capgemini.forestrymanagementsystemspringrest.service.AuthenticationService;
+
+@RestController
+public class LoginController {
+	
+	@Autowired
+	private AuthenticationService service;
+	
+	@PostMapping(path = "\register-user", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public LoginResponse register(@RequestBody LoginBean bean) {
+		LoginResponse response=new LoginResponse();
+		if(service.register(bean)) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("registered successfully");
+		}else {
+			response.setStatusCode(401);
+			response.setMessage("failure");
+			response.setDescription("user ID already present");
+		}
+		return response;
+		
+	}
+	public LoginResponse auth(@RequestBody LoginBean bean) {
+		LoginBean loginBean=service.auth(bean.getLogin_id(), bean.getPassword());
+		LoginResponse response=new LoginResponse();
+		if(loginBean != null) {
+			response.setStatusCode(201);
+			response.setMessage("success");
+			response.setDescription("user found for the credentials");
+			response.setLogin(Arrays.asList(loginBean));
+		}
+				
+	}
+
+}

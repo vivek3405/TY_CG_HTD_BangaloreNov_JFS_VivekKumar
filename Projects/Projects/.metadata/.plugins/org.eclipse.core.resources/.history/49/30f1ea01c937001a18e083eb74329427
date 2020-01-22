@@ -1,0 +1,28 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginBean;
+
+@Repository
+public class LoginDaoImpl implements LoginDao {
+	
+	@PersistenceUnit
+	private EntityManagerFactory factory;
+
+	@Override
+	public LoginBean auth(String email, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean register(LoginBean bean) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

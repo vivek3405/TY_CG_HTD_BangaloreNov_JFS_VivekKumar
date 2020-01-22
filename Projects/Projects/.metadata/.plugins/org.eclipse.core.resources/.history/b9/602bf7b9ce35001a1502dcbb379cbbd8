@@ -1,0 +1,5 @@
+package com.capgemini.forestrymanagementsystemspringrest.dto;
+
+public class CustomerResponse {
+
+}

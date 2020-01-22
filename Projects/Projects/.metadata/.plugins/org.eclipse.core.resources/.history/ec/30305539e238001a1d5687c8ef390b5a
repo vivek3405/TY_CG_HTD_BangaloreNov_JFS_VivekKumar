@@ -1,0 +1,41 @@
+package com.capgemini.forestrymanagementsystemspringrest.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.forestrymanagementsystemspringrest.dao.ContractDao;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ContractBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ProductBean;
+import com.capgemini.forestrymanagementsystemspringrest.exception.ProductException;
+
+@Service
+public class ContractServiceImpl implements ContractService {
+	
+	@Autowired
+	private ContractDao dao;
+	
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private CustomerService customerService;
+
+	@Override
+	public boolean addContract(ContractBean bean) {
+		List<ProductBean> productList=productService.searchProduct(bean.getProdId());
+		customerService
+		if(productList.isEmpty()) {
+			throw new ProductException("Product not found with this ID");
+		}
+		else if()
+		return dao.addContract(bean);
+	}
+
+	@Override
+	public List<ContractBean> getAllContract() {
+		return dao.getAllContract();
+	}
+
+}

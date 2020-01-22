@@ -1,0 +1,14 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capgemini.forestrymanagementsystemspringrest.service.AuthenticationService;
+
+@RestController
+public class LoginController {
+	
+	@Autowired
+	private AuthenticationService service;
+
+}

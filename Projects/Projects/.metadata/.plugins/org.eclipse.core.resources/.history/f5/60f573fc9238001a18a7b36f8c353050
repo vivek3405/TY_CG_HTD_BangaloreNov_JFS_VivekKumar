@@ -1,0 +1,622 @@
+package com.capgemini.forestrymanagementsystem.controller;
+
+import java.util.*;
+import java.util.Map.Entry;
+
+import com.capgemini.forestrymanagementsystem.dto.ContractBean;
+import com.capgemini.forestrymanagementsystem.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystem.dto.ProductBean;
+import com.capgemini.forestrymanagementsystem.exception.CustomerException;
+import com.capgemini.forestrymanagementsystem.exception.ProductException;
+import com.capgemini.forestrymanagementsystem.service.ContractService;
+import com.capgemini.forestrymanagementsystem.service.ContractServiceImpl;
+import com.capgemini.forestrymanagementsystem.service.CustomerService;
+import com.capgemini.forestrymanagementsystem.service.CustomerServiceImpl;
+import com.capgemini.forestrymanagementsystem.service.ProductService;
+import com.capgemini.forestrymanagementsystem.service.ProductServiceImpl;
+import com.capgemini.forestrymanagementsystem.validation.CodeValidation;
+
+public class Admin {
+
+	@SuppressWarnings("resource")
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+
+		CustomerService service = new CustomerServiceImpl();
+		ProductService prodService = new ProductServiceImpl();
+		ContractService contractService = new ContractServiceImpl();
+
+		CustomerBean bean;
+		ProductBean productBean;
+		ContractBean contractBean;
+
+		Map<Integer, List<CustomerBean>> custMap = new HashMap<Integer, List<CustomerBean>>();
+		Map<Integer, List<ProductBean>> productMap = new HashMap<Integer, List<ProductBean>>();
+		Map<Integer, List<ContractBean>> contractMap = new HashMap<Integer, List<ContractBean>>();
+		Map<Integer, String> qmap = new HashMap<Integer, String>();
+		Map<String, String> deliveryMap = new HashMap<String, String>();
+
+		List<Integer> list = new ArrayList<Integer>();
+		while (true) {
+			int count = 0;
+			int option1 = 0;
+			try {
+				System.out.println("====Welcome to Forestry Management System=====");
+				System.out.println(
+						"Enter 1 for Admin Section\nEnter 2 for Client Section\n" + "Enter 3 for Schedular section");
+
+				option1 = Integer.parseInt(sc.next());
+			} catch (Exception e) {
+				System.err.println("You can enter only integer value");
+				System.out.println();
+			}
+			switch (option1) {
+			case 1:
+				System.out.println("Please Login to enter in the admin section....");
+				System.out.println("Enter UserId");
+				String id = sc.next();
+				System.out.println("Enter Password");
+				String pass = sc.next();
+				if (id.equals("viv3405") && pass.equals("qwerty")) {
+					count = 0;
+					while (count == 0) {
+						int option2 = 0;
+						bean = new CustomerBean();
+						productBean = new ProductBean();
+						try {
+							System.out.println("Welcome Admin");
+							System.out.println("==================");
+							System.out.println("Enter 1 for Client Operations\n"
+									+ "Enter 2 for Products\nEnter 3 for Cliet's Payment related issues\n"
+									+ "Enter 4 to logout");
+							option2 = Integer.parseInt(sc.next());
+						} catch (Exception e) {
+							System.err.println("you can only enter integer value");
+						}
+						switch (option2) {
+						case 1:
+							count = 0;
+							while (count == 0) {
+								int option3 = 0;
+								try {
+									System.out.println("Client Operations");
+									System.out.println("--------------------");
+									System.out
+											.println("Enter 1 to add customer\nEnter 2 to Explore among the customers\n"
+													+ "Enter 3 to search a customer\nEnter 4 to delete a customer\n"
+													+ "Enter 5 to modification for the customer\nEnter 6 to go back to home\n");
+									option3 = Integer.parseInt(sc.next());
+								} catch (Exception e) {
+									System.out.println("You can enter only integer value");
+								}
+								switch (option3) {
+								case 1:
+									int temp = 0;
+									System.out.println("Enter customer name...");
+									bean.setCustomerName(sc.next());
+									int customerid = 0;
+									temp++;
+									while (!(temp == 0)) {
+										if (temp > 0) {
+											System.out.println("Enter customer Id...");
+											try {
+												customerid = Integer.parseInt(sc.next());
+												temp = 0;
+											} catch (Exception e) {
+												temp++;
+												System.err.println("you can enter only integer value");
+											}
+										}
+									}
+									if (custMap.containsKey(customerid)) {
+										System.out.println("this customer ID already exist");
+										break;
+									} else {
+										bean.setCustomerId(customerid);
+									}
+									do {
+										System.out.println("Enter customer mobileno....");
+										long mobile = sc.nextLong();
+										if (CodeValidation.mobile(mobile)) {
+											bean.setMobileNo(mobile);
+											temp = 0;
+										} else {
+											System.out.println("Mobile number must be of 10 digits");
+											temp++;
+										}
+									} while (temp > 0);
+									System.out.println("Enter customer town...");
+									bean.setTown(sc.next());
+									System.out.println("Enter customer postcode...");
+									bean.setPostCode(sc.nextLong());
+
+									do {
+										System.out.println("Enter customer email...");
+										String email = sc.next();
+										if (CodeValidation.email(email)) {
+											bean.setEmail(email);
+											temp = 0;
+										} else {
+											System.err.println("Please give valid email id");
+											temp++;
+										}
+									} while (temp > 0);
+									System.out.println("----------------------");
+									if (service.addCustomer(bean)) {
+										System.out.println("Customer added...");
+
+									} else {
+										System.err.println("not added");
+									}
+									custMap.put(bean.getCustomerId(), service.getAllCustomer());
+									break;
+
+								case 2:
+									if (!custMap.isEmpty()) {
+										Set<Entry<Integer, List<CustomerBean>>> entries = custMap.entrySet();
+										for (Entry<Integer, List<CustomerBean>> entry : entries) {
+											System.out.print("Customer ID is=====>");
+											System.out.println(entry.getKey());
+											System.out.println(entry.getValue());
+											System.out.println("-------------------");
+
+										}
+									} else {
+										System.out.println("No Customer Found");
+									}
+									break;
+								case 3:
+									try {
+										System.out.println("Enter the customer ID to search");
+										int custid = sc.nextInt();
+										if (service.searchCustomer(custid, custMap))
+											System.out.println(custMap.get(custid));
+										throw new CustomerException("customer not found");
+									} catch (CustomerException e) {
+										System.out.println(e.getMessage());
+									}
+
+									break;
+								case 4:
+									try {
+										System.out.println("enter customer id");
+										int sa = sc.nextInt();
+										if (service.deleteCustomer(sa, custMap)) {
+											custMap.remove(sa);
+											System.out.println("customer deleted");
+										} else
+											throw new CustomerException("Customer not found Please try again");
+									} catch (CustomerException e) {
+										System.out.println(e.getMessage());
+									}
+									break;
+								case 5:
+									try {
+										System.out.println("Enter the custid to search for modification");
+										int cid = sc.nextInt();
+										if (service.searchCustomer(cid, custMap)) {
+											System.out.println(custMap.get(cid));
+											custMap.remove(cid);
+											bean.setCustomerId(cid);
+											System.out.println("Fill this form for any modificaton-->");
+											System.out.println("-------------");
+											System.out.println("Enter customer name...");
+											bean.setCustomerName(sc.next());
+											System.out.println("Enter customer mobileno....");
+											bean.setMobileNo(sc.nextLong());
+											System.out.println("Enter customer town...");
+											bean.setTown(sc.next());
+											System.out.println("Enter customer postcode...");
+											bean.setPostCode(sc.nextLong());
+											System.out.println("Enter customer email...");
+											bean.setEmail(sc.next());
+											System.out.println("----------------------");
+											service.addCustomer(bean);
+											custMap.put(bean.getCustomerId(), service.getAllCustomer());
+											System.out.println(custMap.get(cid));
+										} else
+											throw new CustomerException(
+													"No customer with this customerid... try again");
+									} catch (CustomerException e) {
+										System.out.println(e.getMessage());
+									}
+									break;
+								case 6:
+									count++;
+									break;
+								default:
+									System.out.println("Invalid number---enter between 1-6");
+									System.out.println();
+								}
+							} // end of while loop
+							continue;
+						case 2:
+							count = 0;
+							while (count == 0) {
+								int option4 = 0;
+								try {
+									System.out.println("Product Section");
+									System.out.println("-----------------");
+									System.out.println("Enter 1 to add Product\nEnter 2 to Explore among the Products\n"
+											+ "Enter 3 to search a Product\nEnter 4 to delete a Product\n"
+											+ "Enter 5 to modification for the Product\nEnter 6 to go back to home\n");
+									option4 = Integer.parseInt(sc.next());
+								} catch (Exception e) {
+									System.err.println("You can enter only integer value");
+									System.out.println();
+								}
+								switch (option4) {
+								case 1:
+									System.out.println("Enter product id");
+									productBean.setProductId(sc.nextInt());
+									System.out.println("Enter prodict name");
+									productBean.setProductName(sc.next());
+									System.out.println("Enter product cost");
+									productBean.setProductCost(sc.nextDouble());
+									System.out.println("----------------------");
+									if (prodService.addProduct(productBean)) {
+										System.out.println("product added...");
+
+									} else {
+										System.err.println("not added");
+									}
+									productMap.put(productBean.getProductId(), prodService.getAllProduct());
+									break;
+								case 2:
+									Set<Entry<Integer, List<ProductBean>>> entries = productMap.entrySet();
+									for (Entry<Integer, List<ProductBean>> entry : entries) {
+										System.out.print("Product ID is=====>");
+										System.out.println(entry.getKey());
+										System.out.println(entry.getValue());
+										System.out.println("-------------------");
+									}
+								case 3:
+									try {
+										System.out.println("Enter the product ID to search");
+										int prodid = sc.nextInt();
+										if (prodService.searchProduct(prodid, productMap)) {
+											System.out.println("Product found");
+											System.out.println(custMap.get(prodid));
+										} else
+											throw new ProductException("Product not found");
+									} catch (ProductException e) {
+										System.out.println(e.getMessage());
+									}
+									break;
+								case 4:
+									try {
+										System.out.println("enter product id");
+										int p = sc.nextInt();
+										if (prodService.deleteProduct(p, productMap)) {
+											custMap.remove(p);
+											System.out.println("product deleted");
+										} else
+											throw new ProductException("error.. ID not found in the directory");
+									} catch (ProductException e) {
+										System.out.println(e.getMessage());
+									}
+									break;
+								case 5:
+									try {
+										System.out.println("Enter the ProductID to search for modification");
+										int pid = sc.nextInt();
+										if (prodService.searchProduct(pid, productMap)) {
+											System.out.println(custMap.get(pid));
+											productMap.remove(pid);
+											productBean.setProductId(pid);
+											System.out.println("Fill this form for any modificaton-->");
+											System.out.println("-------------");
+											System.out.println("Enter Product name...");
+											productBean.setProductName(sc.next());
+											System.out.println("Enter the product cost");
+											productBean.setProductCost(sc.nextDouble());
+											service.addCustomer(bean);
+											productMap.put(productBean.getProductId(), prodService.getAllProduct());
+											System.out.println(productMap.get(pid));
+										} else
+											throw new ProductException("No Product with this ProductID... try again");
+									} catch (ProductException e) {
+										System.out.println(e.getMessage());
+									}
+									break;
+								case 6:
+									count++;
+									break;
+								default:
+									System.out.println("Invalid entry---enter between 1-7");
+								}
+							} // end of while loop
+							continue;
+						case 3:
+							System.out.println("Clients Queries");
+							System.out.println("----------------");
+							if (!qmap.isEmpty()) {
+								Set<Entry<Integer, String>> entries = qmap.entrySet();
+								for (Entry<Integer, String> entry : entries) {
+									System.out.print("Queries--");
+									System.out.println(entry.getKey());
+									System.out.println(entry.getValue());
+									System.out.println("-------------------");
+								}
+							} else {
+								System.out.println("No queries for today");
+							}
+							break;
+						case 4:
+							count++;
+							System.out.println("Logout successfully");
+							break;
+						default:
+							System.out.println("Invalid Input---enter between 1-4");
+						}
+					} // end of admin while loop
+				} else {
+					System.err.println("You Have entered wrong credential");
+				}
+				break;
+			case 2:
+				bean = new CustomerBean();
+				int option = 0;
+				try {
+					System.out.println("Enter 1 to send your registration request to the admin\n" + "Enter 2 to login");
+					option = Integer.parseInt(sc.next());
+				} catch (Exception e) {
+					System.err.println("You can enter only integer value");
+				}
+				switch (option) {
+				case 1:
+					Random r = new Random();
+					System.out.println("Enter name...");
+					bean.setCustomerName(sc.next());
+					bean.setCustomerId(201900 + r.nextInt(99));
+					int temp=0;
+					long number=0;
+					while(temp==0) {
+						System.out.println("Enter mobileno....");
+						number=sc.nextLong();
+						if(CodeValidation.mobile(number)) {
+							temp++;
+						}else {
+							System.out.println("Mobile number should be of 10 digit\nMobile number Should Start from 6,7,8 and 9 only");
+						}
+					}
+					bean.setMobileNo(number);
+					System.out.println("Enter town...");
+					bean.setTown(sc.next());
+					System.out.println("Enter postcode...");
+					bean.setPostCode(sc.nextLong());
+					System.out.println("Enter email...");
+					bean.setEmail(sc.next());
+					System.out.println("----------------------");
+					if (service.addCustomer(bean)) {
+						System.out.println("You have been successfully registered");
+						System.out.println();
+						System.out.println("your customer ID is: " + bean.getCustomerId());
+
+					} else {
+						System.err.println("not added");
+					}
+					custMap.put(bean.getCustomerId(), service.getAllCustomer());
+					break;
+				case 2:
+					int temp = 0;
+					while (temp == 0) {
+						try {
+							System.out.println("Please Enter Customer ID");
+							int custId = Integer.parseInt(sc.next());
+							if (custMap.containsKey(custId)) {
+								temp++;
+							} else {
+								System.out.println("no Customer with this ID found");
+							}
+						} catch (Exception e) {
+							System.out.println("ID should be in number format");
+						}
+					}
+					System.out.println("password");
+					String password = sc.next();
+					if (password.equals("qwerty")) {
+						count = 0;
+						while (count == 0) {
+							int option2 = 0;
+							try {
+								System.out.println("Welcome to the Customer Section");
+								System.out.println("====================");
+								System.out.println("Enter 1 to view all the available products\n"
+										+ "Enter 2 to order products\nEnter 3 for Land related details\n"
+										+ "Enter 4 to send your queries\nEnter 5 to logout from client");
+								option2 = Integer.parseInt(sc.next());
+							} catch (Exception e) {
+								System.err.println("You can enter only integer value");
+							}
+							switch (option2) {
+							case 1:
+								if (!productMap.isEmpty()) {
+									Set<Entry<Integer, List<ProductBean>>> entries = productMap.entrySet();
+									for (Entry<Integer, List<ProductBean>> entry : entries) {
+										// if(entry.getValue()!=null) {
+										System.out.print("List of Products which are available-->");
+										System.out.println(entry.getValue());
+										System.out.println("-------------------");
+										System.out.println("Enter product ID to add the product to Your 'Wishlist'");
+										int prodid = sc.nextInt();
+										if (productMap.containsKey(prodid)) {
+											System.out.println("Product added to your wishlist\n");
+											list.add(prodid);
+										} else {
+											System.out.println("product ID wrong/product not availabe");
+										}
+									}
+								} else {
+									System.out.println("no more products are available");
+								}
+								break;
+							case 2:
+								System.out.println("Customer WishList");
+								System.out.println("===================");
+								for (Integer entry : list) {
+									System.out.println(productMap.get(entry));
+
+								}
+								int option5 = 0;
+								try {
+									System.out.println(
+											"Enter 1 to request the products\nEnter 2 to clear Your wishlist\nEnter 3 to check the statust of your delivery");
+									option5 = Integer.parseInt(sc.next());
+								} catch (Exception e) {
+									System.out.println("You can enter only integer value");
+								}
+								switch (option5) {
+								case 1:
+									System.out.println(
+											"Product requested to the Scheduler\ndelivery date will be updated soon");
+									break;
+								case 2:
+									list.clear();
+									System.out.println("Your Wishlist has been cleared");
+									break;
+								case 3:
+									if (!deliveryMap.isEmpty()) {
+										System.out.println("Your product will be delivered on");
+										Set<Entry<String, String>> entries = deliveryMap.entrySet();
+										for (Entry<String, String> entry : entries) {
+											System.out.print(entry.getValue());
+											System.out.println("-------------------");
+										}
+									} else {
+										System.out.println("Schedular is authorizing your order...");
+									}
+									break;
+								default:
+									System.out.println("invalid entry--enter from 1-3");
+								}
+								break;
+							case 3:
+								Random ran = new Random();
+								System.out.println("Land Section for Client");
+								int rid = 1000 + ran.nextInt(99);
+								if (rid > 1050) {
+									System.out.println("Land ID " + rid + " is available for the contract");
+									System.out.println("Please contact the scheduler or admin");
+								} else {
+									System.out.println("Land ID " + rid + " is not available");
+									System.err.println("already booked");
+								}
+
+								break;
+							case 4:
+								System.out.println("Enter your customer ID");
+								int cid = sc.nextInt();
+								System.out.println("Enter Your query");
+								String query = sc.next();
+								qmap.put(cid, query);
+								System.out.println("Your query has been sent to the admin");
+								break;
+							case 5:
+								count++;
+								break;
+							default:
+								System.out.println("Enter from 1-5");
+								System.out.println();
+							}
+						} // end of client while loop
+
+					} else {
+						System.out.println("Incorrect password");
+						break;
+					}
+				}
+				break;
+			case 3:
+				contractBean = new ContractBean();
+				System.out.println("Enter username");
+				String user = sc.next();
+				System.out.println("Enter passcode");
+				String userp = sc.next();
+				if (user.equals("viv3405") && userp.equals("qwerty")) {
+					count = 0;
+					while (count == 0) {
+						int option6 = 0;
+						try {
+							System.out.println("Welcome to Schedular");
+							System.out.println("=======================");
+							System.out.println("Enter 1 view all Products\n"
+									+ "Enter 2 to schedule order for the client\nEnter 3 to logout");
+							option6 = Integer.parseInt(sc.next());
+						} catch (Exception e) {
+							System.out.println("You can enter only integer values");
+						}
+						int c = 1;
+						switch (option6) {
+						case 1:
+							if (!productMap.isEmpty()) {
+								Set<Entry<Integer, List<ProductBean>>> entries = productMap.entrySet();
+								for (Entry<Integer, List<ProductBean>> entry : entries) {
+									System.out.println((c++) + ")" + entry.getValue());
+									System.out.println("-------------------");
+								}
+							} else {
+								System.out.println("No product found.. ask admin to add product");
+								System.out.println();
+							}
+							c = 1;
+							break;
+						case 2:
+							if (list.isEmpty()) {
+								System.err.println("no orders found");
+								System.out.println();
+							} else {
+								Random r = new Random();
+								contractBean.setContractNo(10000 + r.nextInt(99));
+								System.out.println("Enter Customer ID of the client");
+								contractBean.setCustomerId(sc.nextInt());
+								System.out.println("Enter Product ID");
+								contractBean.setProductId(sc.nextInt());
+								System.out.println("Enter the Quatity of the Product");
+								contractBean.setQuantity(sc.nextInt());
+								int temp = 0;
+								String date = null;
+								do {
+									System.out.println("Enter the delivery date(yyyy/mm/dd)");
+									date = sc.next();
+									if (CodeValidation.date(date)) {
+										contractBean.setDeliveryDate(date);
+										temp = 0;
+									} else {
+										System.out.println("please try again");
+										temp++;
+									}
+								} while (temp > 0);
+								System.out.println("----------------------");
+								if (contractService.addContract(contractBean)) {
+									System.out.println("Contract assigned");
+
+								} else {
+									System.err.println("not assigned");
+									System.out.println();
+								}
+								contractMap.put(contractBean.getContractNo(), contractService.getAllContracts());
+								deliveryMap.put("delivery date", date);
+							}
+							break;
+						case 3:
+							count++;
+							break;
+						default:
+							System.out.println("enter between 1-3");
+							System.out.println();
+						}
+					} // end of shedular's while
+				} else {
+					System.err.println("Wrong credential");
+					System.out.println();
+				}
+				break;
+			default:
+				System.out.println("not a valid entry---'enter from 1-3'");
+				System.out.println();
+			}
+		} // end of head while loop
+	}// end of main
+}// end of class

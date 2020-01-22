@@ -1,0 +1,18 @@
+package com.capgemini.forestrymanagementsystem.dto;
+
+import java.io.Serializable;
+
+import lombok.Data;
+
+@SuppressWarnings("serial")
+@Data
+public class ContractBean implements Serializable {
+
+	private int contractNo;
+	private int custid;
+	private int haulid;
+	private int prodid;
+	private int quantity;
+	private String deliverydate;
+
+}

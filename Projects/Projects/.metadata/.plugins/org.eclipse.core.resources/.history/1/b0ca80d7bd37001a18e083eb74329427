@@ -1,0 +1,69 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemspringrest.dto.HaulierBean;
+import com.capgemini.forestrymanagementsystemspringrest.exception.CustomerException;
+
+@Repository
+public class HaulierDaoImpl implements HaulierDao {
+	
+	@PersistenceUnit
+	private EntityManagerFactory factory;
+
+	@Override
+	public boolean register(HaulierBean bean) {
+		EntityManager manager= factory.createEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		transaction.begin();
+		try {
+			manager.persist(bean);
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CustomerException("Email already exist/ID already exist");
+		}
+	}
+
+	@Override
+	public List<HaulierBean> getAllCustomer() {
+		String jpql="from HaulierBean";
+		EntityManager manager=factory.createEntityManager();
+		TypedQuery<HaulierBean> query=manager.createQuery(jpql, HaulierBean.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public boolean modifyHaulier(HaulierBean bean) {
+		EntityManager manager=factory.createEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		transaction.begin();
+		CustomerBean bean=manager.find(CustomerBean.class, id);
+		bean.setPassword(password);
+		transaction.commit();
+		return true;
+	}
+
+	@Override
+	public boolean deleteHaulier(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<HaulierBean> searchHaulier(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

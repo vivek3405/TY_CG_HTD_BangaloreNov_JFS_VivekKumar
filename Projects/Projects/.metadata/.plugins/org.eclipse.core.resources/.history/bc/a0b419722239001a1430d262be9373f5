@@ -1,0 +1,159 @@
+package com.capgemini.forestrymanagementsystemhibernate.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+import com.capgemini.forestrymanagementsystemhibernate.dto.CustomerBean;
+import com.capgemini.forestrymanagementsystemhibernate.exception.CustomerException;
+import com.capgemini.forestrymanagementsystemhibernate.exception.LoginException;
+
+public class CustomerDaoImpl implements CustomerDao {
+
+	@Override
+	public boolean addCustomer(CustomerBean bean) {
+		EntityManager entityManager = null;
+		EntityTransaction transaction = null;
+		try {
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
+			entityManager = entityManagerFactory.createEntityManager();
+			transaction = entityManager.getTransaction();
+
+			transaction.begin();
+			entityManager.persist(bean);
+			transaction.commit();
+			entityManager.close();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+
+		}
+		return false;
+	}
+
+	@Override
+	public boolean searchCustomer(int custid) {
+		EntityManager entityManager = null;
+		EntityTransaction transaction = null;
+
+		try {
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
+			entityManager = entityManagerFactory.createEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+
+			CustomerBean bean = entityManager.find(CustomerBean.class, custid);
+			if (bean != null) {
+				return true;
+			} else {
+				throw new CustomerException("Customer not found");
+			}
+		} catch (Exception e) {
+			e.getMessage();
+			transaction.rollback();
+		}
+		entityManager.close();
+		return false;
+	}
+
+	@Override
+	public boolean deleteCustomer(int custid) {
+		EntityManager entityManager = null;
+		EntityTransaction transaction = null;
+
+		try {
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
+			entityManager = entityManagerFactory.createEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+
+			CustomerBean bean = entityManager.find(CustomerBean.class, custid);
+			entityManager.remove(bean);
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		}
+		entityManager.close();
+		return false;
+	}
+
+	@Override
+	public boolean modifyMobile(int custid, String number) {
+		EntityTransaction transaction = null;
+		EntityManager entityManager = null;
+		try {
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
+			entityManager = entityManagerFactory.createEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			CustomerBean record = entityManager.find(CustomerBean.class, custid);
+			if (record == null) {
+				throw new CustomerException("This ID not found");
+			}
+			record.setTelno(number);
+			transaction.commit();
+			entityManager.close();
+			return true;
+		} catch (Exception e) {
+			e.getMessage();
+			transaction.rollback();
+		}
+		entityManager.close();
+		return false;
+	}
+
+	@Override
+	public List<CustomerBean> getAllCustomer() {
+		List<CustomerBean> list = new ArrayList<CustomerBean>();
+		EntityManager entityManager = null;
+		try {
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
+			entityManager = entityManagerFactory.createEntityManager();
+			String jpql = "from CustomerBean";
+			Query query = entityManager.createQuery(jpql);
+
+			list = query.getResultList();
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		entityManager.close();
+		return null;
+	}
+
+	@Override
+	public String login(int custid, String password) {
+		EntityManager entityManager = null;
+		EntityTransaction transaction = null;
+		try {
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Test");
+			entityManager = entityManagerFactory.createEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			CustomerBean bean = entityManager.find(CustomerBean.class, custid);
+			if (bean == null) {
+				throw new LoginException("Please try again");
+			}
+			String pass = bean.getPassword();
+			transaction.commit();
+			if (pass.equals(password)) {
+				return pass;
+			}
+		} catch (Exception e) {
+			e.getMessage();
+			transaction.rollback();
+		}
+		return null;
+
+	}
+
+}

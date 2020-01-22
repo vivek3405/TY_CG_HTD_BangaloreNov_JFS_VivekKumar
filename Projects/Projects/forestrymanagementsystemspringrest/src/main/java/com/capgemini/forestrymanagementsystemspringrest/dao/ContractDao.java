@@ -1,0 +1,12 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+import java.util.List;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.ContractBean;
+
+public interface ContractDao {
+	
+	public boolean addContract(ContractBean bean);
+	public List<ContractBean> getAllContract();
+
+}

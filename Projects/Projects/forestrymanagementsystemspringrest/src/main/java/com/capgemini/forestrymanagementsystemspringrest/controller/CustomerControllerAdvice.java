@@ -1,0 +1,20 @@
+package com.capgemini.forestrymanagementsystemspringrest.controller;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.CustomerResponse;
+import com.capgemini.forestrymanagementsystemspringrest.exception.CustomerException;
+
+@RestControllerAdvice
+public class CustomerControllerAdvice {
+	@ExceptionHandler(CustomerException.class)
+	public CustomerResponse handleCustomerException(CustomerException e) {
+		CustomerResponse response = new CustomerResponse();
+		response.setStatusCode(501);
+		response.setMessage("Exception");
+		response.setDescription(e.getMessage());
+		return response;
+	}
+
+}

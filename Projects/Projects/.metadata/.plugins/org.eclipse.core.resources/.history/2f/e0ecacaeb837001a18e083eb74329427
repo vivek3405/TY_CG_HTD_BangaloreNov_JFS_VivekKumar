@@ -1,0 +1,27 @@
+package com.capgemini.forestrymanagementsystemspringrest.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.capgemini.forestrymanagementsystemspringrest.dao.ContractDao;
+import com.capgemini.forestrymanagementsystemspringrest.dto.ContractBean;
+
+@Service
+public class ContractServiceImpl implements ContractService {
+	
+	@Autowired
+	private ContractDao dao;
+
+	@Override
+	public boolean addContract(ContractBean bean) {
+		return dao.addContract(bean);
+	}
+
+	@Override
+	public List<ContractBean> getAllCustomer() {
+		return dao.getAllCustomer();
+	}
+
+}

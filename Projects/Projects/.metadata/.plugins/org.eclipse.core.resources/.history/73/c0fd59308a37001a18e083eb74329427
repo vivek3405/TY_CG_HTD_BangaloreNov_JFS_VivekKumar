@@ -1,0 +1,10 @@
+package com.capgemini.forestrymanagementsystemspringrest.service;
+
+import com.capgemini.forestrymanagementsystemspringrest.dto.LoginBean;
+
+public interface AuthenticationService {
+	
+	private LoginBean auth(String email, String password);
+	private boolean register(LoginBean bean);
+	
+}

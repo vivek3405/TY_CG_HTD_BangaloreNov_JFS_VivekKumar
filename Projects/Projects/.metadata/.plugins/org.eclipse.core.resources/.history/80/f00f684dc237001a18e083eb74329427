@@ -1,0 +1,5 @@
+package com.capgemini.forestrymanagementsystemspringrest.dao;
+
+public interface OrderDao {
+
+}

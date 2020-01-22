@@ -1,0 +1,9 @@
+package com.capgemini.forestrymanagementsystemspringrest.exception;
+
+public class OrderException {
+
+	public OrderException(String message) {
+		super(message);
+		
+	}
+}
