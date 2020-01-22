@@ -1,0 +1,33 @@
+
+  .login,
+  .image {
+    min-height: 100vh;
+  }
+  
+  .bg-image {
+    background-image: url('https://cdn.pixabay.com/photo/2018/04/06/00/25/nature-3294681__340.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-heading {
+    font-weight: 300;
+  }
+  
+  .btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+  }
+  
+  .form-label-group>input {
+    height: auto;
+    border-radius: 2rem;
+  }
+  back{
+      background-color: wheat
+  }
+  .display-4{
+    font-size: 25px !important;
+  }

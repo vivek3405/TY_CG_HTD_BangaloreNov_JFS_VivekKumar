@@ -1,0 +1,162 @@
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class=" col-md-4 col-lg-6 mt-4">
+            <div>
+                <h1 class="display-4 b-margin">Customer Operations</h1>
+                <button class="btn btn-secondary btn-lg btn-block" (click)='add()'>Add-Customer</button>
+                <button class="btn btn-secondary btn-lg btn-block text-light" (click)='view()'>View-Customer</button>
+            </div>
+            <div class="mt-2">
+                <h1 class="display-4">Product Operations</h1>
+                <input type="submit" name="add" id="add" value="Add Product" (click)='insertProduct()'
+                    class="btn btn-secondary btn-lg btn-block text-light">
+                <button class="btn btn-secondary btn-lg btn-block text-light"
+                    (click)='viewProduct()'>View-Product</button>
+            </div>
+            <div class="mt-2">
+                <h1 class="display-4">Haulier Operations</h1>
+                <button class="btn btn-secondary btn-lg btn-block" (click)='insertHaulier()'>Add-Product</button>
+                <button class="btn btn-secondary btn-lg btn-block text-light"(click)='viewHaulier()'>View-Product</button>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-6 bg-secondary text-light" *ngIf='button'>
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <div class="text-center display-3 text-dark">Add Customer</div>
+                            <form #addCustomerForm='ngForm' (ngSubmit)='addCustomer(addCustomerForm)'>
+                                <div class="form-group row">
+                                    <label for="cname" class="col-sm-4 col-form-label">Customer Name</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="cname" id="cname"
+                                            class="form-control justify-content-between" #cname='ngModel' ngModel
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="telno" class="col-sm-4 col-form-label">Mobile</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="telno" id="telno" class="form-control" #telno='ngModel'
+                                            ngModel required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="town" class="col-sm-4 col-form-label">Town</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="town" id="town" class="form-control" #town='ngModel'
+                                            ngModel required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="postcode" class="col-sm-4 col-form-label">Post Code</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="postcode" id="postcode" class="form-control"
+                                            #postcode='ngModel' ngModel required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control" #email='ngModel'
+                                        ngModel required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="text" name="password" id="password" class="form-control"
+                                        #password='ngModel' ngModel>
+                                </div>
+                                <button type="submit" class="btn btn-primary float-right">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-6 bg-secondary text-light" *ngIf='insert'>
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <div class="text-center display-3 text-dark">Add producct</div>
+                            <form #addProductForm='ngForm' (ngSubmit)='addProduct(addProductForm)'>
+                                <div class="form-group">
+                                    <label for="pname">Product Name</label>
+                                    <input type="pname" name="pname" id="pname" class="form-control" #pname='ngModel'
+                                        ngModel required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="imageUrl">Image Url</label>
+                                    <input type="text" name="imageUrl" id="imageUrl" class="form-control"
+                                        #imageUrl='ngModel' ngModel>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pcost">Product Cost</label>
+                                    <input type="text" name="pcost" id="pcost" class="form-control" #pcost='ngModel'
+                                        ngModel>
+                                </div>
+                                <button type="submit" class="btn btn-primary float-right">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-6 bg-secondary text-light" *ngIf='work'>
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <div class="display-4"><span class="text-dark">Hello Admin!!!</span><br><br>Your work goes here...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       <div class="col-md-8 col-lg-6 bg-secondary text-light" *ngIf='insertHaul'>
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <div class="text-center display-3 text-dark">Add Haulier</div>
+                            <form #addHaulierForm='ngForm' (ngSubmit)='addHaulier(addHaulierForm)'>
+                                <div class="form-group">
+                                    <label for="hname">Haulier Name</label>
+                                    <input type="hname" name="hname" id="hname" class="form-control" #hname='ngModel'
+                                        ngModel required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="htelno">Mobile</label>
+                                    <input type="text" name="htelno" id="htelno" class="form-control"
+                                        #htelno='ngModel' ngModel>
+                                </div>
+                                <div class="form-group">
+                                    <label for="htown">town</label>
+                                    <input type="text" name="htown" id="htown" class="form-control" #htown='ngModel'
+                                        ngModel>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hpostcode"></label>
+                                    <input type="text" name="hpostcode" id="hpostcode" class="form-control" #hpostcode='ngModel'
+                                        ngModel>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hemail">Email</label>
+                                    <input type="text" name="hemail" id="hemail" class="form-control" #hemail='ngModel'
+                                        ngModel>
+                                </div>
+                                <button type="submit" class="btn btn-primary float-right">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

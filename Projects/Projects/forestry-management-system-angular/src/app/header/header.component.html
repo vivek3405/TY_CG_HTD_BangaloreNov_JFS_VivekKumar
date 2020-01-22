@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" routerLink="/"><i class="fas fa-tree" aria-hidden="true">F<span
+                class="text-success">M</span>S</i></a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" *ngIf='isLoggedInCustomer()'>
+                    <a class="nav-link" routerLink="customer" (click)='navigate()'>Products</a>
+                </li>
+            <li class="nav-item" *ngIf='isAdmin() || isSchedular()'>
+                <a class="nav-link" routerLink="admin">Orders</a>
+            </li>
+            <li class="nav-item" *ngIf='isAdmin() || isSchedular()'>
+                <a class="nav-link" routerLink="">Contracts</a>
+            </li>
+            <li class="nav-item" *ngIf='isAdmin()'>
+                <a class="nav-link" routerLink="">Queries</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown active" *ngIf='!isLoggedIn() && !isLoggedInCustomer()'>
+                <a class="nav-link dropdown-toggle link" id="dropdownId" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Account</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownId">
+                    <a class="dropdown-item" routerLink="login">Admin</a>
+                    <a class="dropdown-item" routerLink="customer-login">Client</a>
+                    <a class="dropdown-item" routerLink="login">Schedular</a>
+                </div>
+            </li>
+        </ul>
+        <ul>
+            <li class="navbar-nav ml-auto mt-2 nav-item" *ngIf='isLoggedInCustomer()'>
+            <a  class="nav-link" routerLink="/order" ><i class="fa fa-cart-arrow-down" aria-hidden="true"> </i> My Orders</a>
+            </li>
+        </ul>
+        <ul>
+            <li class="navbar-nav ml-auto mt-2" *ngIf='isLoggedIn() || isLoggedInCustomer()'>
+                <button class="btn btn-outline-danger text-light" (click)='logout()'>Logout</button>
+            </li>
+        </ul>
+    </div>
+</nav>
